@@ -2,11 +2,20 @@ from pydantic import BaseModel, Field
 from typing import List, Dict, Any, Optional
 
 class QueryRequest(BaseModel):
-    """Request model for querying the RAG system."""
+    """Request model for querying the RAG system.
+
+    Attributes:
+        query: The query string.
+        k: Number of documents to retrieve.
+        rerank: Whether to rerank the retrieved documents.
+        rerank_top_k: Number of top documents to keep after reranking.
+        conversation_id: Optional ID of the conversation for contextual memory.
+    """
     query: str = Field(..., description="The query string")
     k: int = Field(4, description="Number of documents to retrieve")
     rerank: bool = Field(True, description="Whether to rerank the retrieved documents")
     rerank_top_k: Optional[int] = Field(None, description="Number of top documents to keep after reranking")
+    conversation_id: Optional[str] = Field(None, description="ID of the conversation for contextual memory")
 
 class DocumentResponse(BaseModel):
     """Response model for a retrieved document."""

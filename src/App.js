@@ -166,7 +166,16 @@ const ChatPage = () => {
     'Какой лучший фреймворк для React?'
   ]);
   const [isHovering, setIsHovering] = useState(false);
+  const [conversationId, setConversationId] = useState(null);
 
+  useEffect(() => {
+    const storedId = localStorage.getItem('conversation_id');
+    if (storedId) {
+      setConversationId(storedId);
+    }
+  }, []);
+
+  // Send a message and include the conversation ID if it exists
   const handleSendMessage = async () => {
       if (inputValue.trim()) {
         const newMessage = {
@@ -181,7 +190,7 @@ const ChatPage = () => {
         setInputValue('');
 
         try {
-          const response = await sendMessage(inputValue, history);
+          const response = await sendMessage(inputValue, history, conversationId);
           const botResponse = {
             id: Date.now() + 1,
             text: response.answer || "Ошибка получения ответа от сервера.",
