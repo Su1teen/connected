@@ -110,13 +110,15 @@ async def delete_conversation(conversation_id: str):
 @app.post("/query", response_model=QueryResponse)
 async def query(request: QueryRequest):
     """
-    Process a query using the RAG system, with optional conversation memory.
-    
+    Process a query using the RAG system, optionally leveraging conversation
+    memory.
+
     Args:
-        request: The query request containing the query and parameters
-    
+        request: The query request containing the question and optional
+            ``conversation_id`` for maintaining context.
+
     Returns:
-        The generated answer and retrieved documents
+        The generated answer and retrieved documents.
     """
     global rag_chain
     
